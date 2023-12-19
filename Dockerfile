@@ -1,0 +1,37 @@
+FROM python:3.11
+
+ARG SERVICE_NAME
+ARG LOG_LEVEL
+ARG OPENAI_KEY
+ARG TELEGRAM_TOKEN
+ARG DB_HOST
+ARG DB_PORT
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_NAME
+
+ENV SERVICE_NAME $SERVICE_NAME
+ENV LOG_LEVEL $LOG_LEVEL
+ENV OPENAI_KEY $OPENAI_KEY
+ENV TELEGRAM_TOKEN $TELEGRAM_TOKEN
+ENV DB_HOST $DB_HOST
+ENV DB_PORT $DB_PORT
+ENV DB_USER $DB_USER
+ENV DB_PASSWORD $DB_PASSWORD
+ENV DB_NAME $DB_NAME
+
+ENV PORT 8080
+
+RUN apt-get update && apt-get install -y libgl1
+
+RUN pip install --upgrade pip
+
+COPY requirements.txt /
+
+RUN pip install -r requirements.txt
+
+RUN python -m spacy download es_core_news_sm
+
+COPY ./src /src
+
+CMD uvicorn src.app:app --host 0.0.0.0 --port ${PORT}

@@ -1,0 +1,15 @@
+python-dotenv
+fastapi
+spacy
+psutil
+uvicorn
+python-multipart
+starlette
+requests
+pydantic
+pydantic-settings
+transformers
+telebot
+pymysql
+mysql-connector-python
+openai
